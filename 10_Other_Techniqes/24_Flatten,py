@@ -1,0 +1,85 @@
+import numpy as np
+arr = np.array([[1,2,3],
+                [2,5,2],
+                [2,2,2]])
+print(arr) 
+# Flatten hamesha 1d array ko return kerta hai
+
+print("By defalut aap ke array ko C-Style me print kerta hai")
+print()
+print(arr.flatten(order = 'C'))  #  -> is form me chalta
+print(arr.flatten(order = 'c'))
+print()
+print(arr.flatten(order="F")) # fortan style, case sensitive nh hai type string k ander
+print(arr.flatten(order="f")) # fortan style   ↓ is form me chalte hai
+print()
+print(arr.flatten(order = 'A'))
+print(arr.flatten(order = 'a'))  # system ko check kerta hai jis format ko system use kerraha hai as an actual wohi choose kerta hai formate
+print()
+print(arr.flatten(order = 'K'))   # system ko check kerta hai jis format ko system use kerraha hai as an actual wohi coose kerta hai formate
+print(arr.flatten(order = 'k'))
+print()
+
+print(arr)
+
+
+
+
+# [1 2 2 2 5 2 3 2 2] F
+# [1 2 3 2 5 2 2 2 2] C
+
+
+# Observation and Behavior:
+# Fortran-style ('F' or 'f'): Fortran-style array ko columns ke according traverse karta hai (top-to-bottom in each column).
+
+# python
+# arr.flatten(order="F")  # ya arr.flatten(order="f")
+# Output:
+
+# csharp
+# [1 2 2 2 5 2 3 2 2]
+# Yahaan har column ko sequentially traverse kiya ja raha hai:
+
+# First column: 1, 2, 2
+# Second column: 2, 5, 2
+# Third column: 3, 2, 2
+# C-style ('C' ya 'c'): Ye rows ke according traverse karta hai (left-to-right in each row).
+
+# python
+# arr.flatten(order="C")  # ya arr.flatten(order="c")
+# Output:
+
+# csharp
+# [1 2 3 2 5 2 2 2 2]
+# Yahaan har row ko sequentially traverse kiya ja raha hai:
+
+# First row: 1, 2, 3
+# Second row: 2, 5, 2
+# Third row: 2, 2, 2
+# 'A' (Any): 'A' array ka current memory layout check karta hai:
+
+# Agar array 'C'-ordered hai, toh output 'C' order me aayega.
+# Agar array 'F'-ordered hai, toh output 'F' order me aayega.
+# Default numpy arrays 'C'-ordered hote hain.
+# python
+# arr.flatten(order="A")  # ya arr.flatten(order="a")
+# Output:
+
+# csharp
+# [1 2 3 2 5 2 2 2 2]
+# Kyunki arr ka layout 'C'-style hai, toh output bhi 'C'-style ka hai.
+
+# 'K' (Keep): 'K' ka matlab hai memory ka jo actual order hai usko preserve karo. Default numpy arrays 'C'-ordered hote hain, toh 'K' ka output 'C' order jaisa hi hoga jab tak explicitly memory order change na ho.
+
+# python
+# arr.flatten(order="K")  # ya arr.flatten(order="k")
+# Output:
+
+# csharp
+# [1 2 3 2 5 2 2 2 2]
+# Kyunki arr ka memory layout 'C'-style hai, toh output 'C' order ke hisaab se hai.
+
+# Key Difference:
+# Sirf 'F' (Fortran-style) output ko column-major order me flatten karta hai. Baaki sab ('C', 'A', 'K') same result dete hain jab array ka memory layout 'C' order me ho.
+
+# Agar aapne explicitly array ko 'F' order me banaya ho (np.array(..., order='F')), toh 'A' aur 'K' ka behavior change hoga.
